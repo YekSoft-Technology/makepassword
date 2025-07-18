@@ -239,25 +239,45 @@
         let currentDifficulty = 'easy';
         
         const turkishCities = [
-            'istanbul', 'ankara', 'izmir', 'bursa', 'adana', 'gaziantep', 'konya', 'antalya',
-            'kayseri', 'mersin', 'eskisehir', 'diyarbakir', 'samsun', 'denizli', 'sanliurfa',
-            'adapazari', 'malatya', 'kahramanmaras', 'erzurum', 'van', 'batman', 'elazig',
-            'erzincan', 'tokat', 'corum', 'edirne', 'usak', 'isparta', 'bolu', 'yalova'
-        ];
-        
+  'adana', 'adiyaman', 'afyonkarahisar', 'agri', 'aksaray', 'amasya', 'ankara', 'antalya', 'ardahan',
+  'artvin', 'aydin', 'balikesir', 'bartin', 'batman', 'bayburt', 'bilecik', 'bingol', 'bitlis',
+  'bolu', 'burdur', 'bursa', 'canakkale', 'cankiri', 'corum', 'denizli', 'diyarbakir', 'duzce',
+  'edirne', 'elazig', 'erzincan', 'erzurum', 'eskisehir', 'gaziantep', 'giresun', 'gumushane',
+  'hakkari', 'hatay', 'igdir', 'isparta', 'istanbul', 'izmir', 'kahramanmaras', 'karabuk', 'karaman',
+  'kars', 'kastamonu', 'kayseri', 'kirikkale', 'kirklareli', 'kirsehir', 'kilis', 'kocaeli',
+  'konya', 'kutahya', 'malatya', 'manisa', 'mardin', 'mersin', 'mugla', 'mus', 'nevsehir',
+  'nigde', 'ordu', 'osmaniye', 'rize', 'sakarya', 'samsun', 'siirt', 'sinop', 'sivas',
+  'sanliurfa', 'sirnak', 'tekirdag', 'tokat', 'trabzon', 'tunceli', 'usak', 'van', 'yalova',
+  'yozgat', 'zonguldak'
+];
         const turkishBrands = [
-            'turkcell', 'vodafone', 'bim', 'migros', 'carrefour', 'arcelik', 'vestel',
-            'beko', 'eti', 'ulker', 'coca', 'cola', 'pepsi', 'fanta', 'sprite',
-            'nike', 'adidas', 'puma', 'samsung', 'apple', 'huawei', 'xiaomi',
-            'toyota', 'honda', 'bmw', 'mercedes', 'audi', 'volkswagen', 'ford',
-            'opel', 'renault', 'peugeot', 'hyundai', 'kia', 'mazda', 'nissan'
-        ];
-        
+  'turkcell', 'vodafone', 'turktelekom', 'bim', 'migros', 'carrefour', 'şok', 'a101', 'hakmar', 'kipa',
+  'arcelik', 'vestel', 'beko', 'altus', 'profilo', 'simfer', 'sunny', 'fakir', 'arnica', 'rowenta', 'tefal',
+  'bosch', 'siemens', 'philips', 'grundig', 'black+decker', 'delonghi', 'arzum', 'king',
+  'eti', 'ulker', 'saray', 'şölen', 'torku', 'pinar', 'nestle', 'danone', 'aytaç', 'banvit', 'cp', 'namet',
+  'eyüp sabri tuncer', 'duru', 'hacı şakir', 'ipek', 'mintax', 'fairy', 'finish', 'persil', 'omo', 'ace',
+  'coca', 'cola', 'pepsi', 'fanta', 'sprite', 'redbull', 'ice tea', 'lipton', 'nescafe', 'jacobs', 'tchibo',
+  'nike', 'adidas', 'puma', 'reebok', 'new balance', 'skechers', 'converse', 'asics', 'under armour',
+  'lc waikiki', 'defacto', 'colins', 'mavi', 'koton', 'zara', 'hm', 'pull&bear', 'bershka', 'stradivarius',
+  'flo', 'inStreet', 'derimod', 'greyder', 'hotic', 'kemal tanca', 'bambi', 'dockers', 'levis',
+  'samsung', 'apple', 'huawei', 'xiaomi', 'oppo', 'realme', 'casper', 'exper', 'monster', 'vestel',
+  'asus', 'msi', 'lenovo', 'hp', 'dell', 'acer', 'sony', 'philips', 'gigabyte', 'toshiba', 'panasonic',
+  'alienware', 'thomson', 'hommade', 'everest', 'viewsonic', 'lg', 'logitech', 'creative', 'steelseries',
+  'toyota', 'honda', 'bmw', 'mercedes', 'audi', 'volkswagen', 'ford', 'opel', 'renault', 'peugeot',
+  'hyundai', 'kia', 'mazda', 'nissan', 'fiat', 'togg', 'skoda', 'citroen', 'jeep', 'subaru', 'suzuki',
+  'turkish airlines', 'pegasus', 'anadolu jet', 'thy', 'ptt', 'trt', 'aselsan', 'roketsan', 'tusaş',
+  'havelsan', 'bmc', 'baykar', 'kale', 'otokar', 'istanbul havalimanı', 'havataş', 'metro', 'kamil koç',
+  'getir', 'trendyol', 'hepsiburada', 'n11', 'amazon', 'sahibinden', 'letgo', 'yemeksepeti', 'dolap',
+  'migros sanal market', 'carrefoursa online', 'istanbulkart', 'hopi', 'bip', 'ziraat', 'vakıfbank',
+  'halkbank', 'garanti', 'isbank', 'akbank', 'enpara', 'papara', 'troy', 'iyzico', 'param', 'ininal',
+  'decathlon', 'boyner', 'network', 'mudo', 'madame coco', 'english home', 'ikea', 'koctas', 'teknosa',
+  'vatan', 'mediamarkt', 'gold bilgisayar', 'bimeks', 'electroworld', 'aeg', 'arnica', 'altus'
+]; 
         const rules = {
             easy: [
-                { id: 'length', text: 'Tam olarak 15 karakter olmalı', check: (pwd) => pwd.length === 15 },
-                { id: 'uppercase', text: 'En az 3 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 3 },
-                { id: 'lowercase', text: 'En az 3 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 3 },
+                { id: 'length', text: 'Tam olarak 20 karakter olmalı', check: (pwd) => pwd.length === 20 },
+                { id: 'uppercase', text: 'En az 2 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 2 },
+                { id: 'lowercase', text: 'En az 2 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 2 },
                 { id: 'number', text: 'En az 2 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 2 },
                 { id: 'city', text: 'Bir şehir adı içermeli', check: (pwd) => turkishCities.some(city => pwd.toLowerCase().includes(city)) },
                 { id: 'brand', text: 'Bir marka adı içermeli', check: (pwd) => turkishBrands.some(brand => pwd.toLowerCase().includes(brand)) },
@@ -270,9 +290,9 @@
                 }}
             ],
             hard: [
-                { id: 'length', text: 'Tam olarak 15 karakter olmalı', check: (pwd) => pwd.length === 15 },
-                { id: 'uppercase', text: 'En az 4 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 4 },
-                { id: 'lowercase', text: 'En az 4 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 4 },
+                { id: 'length', text: 'Tam olarak 30 karakter olmalı', check: (pwd) => pwd.length === 30 },
+                { id: 'uppercase', text: 'En az 3 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 3 },
+                { id: 'lowercase', text: 'En az 3 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 3 },
                 { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 3 },
                 { id: 'city', text: 'Bir şehir adı içermeli', check: (pwd) => turkishCities.some(city => pwd.toLowerCase().includes(city)) },
                 { id: 'brand', text: 'İki farklı marka adı içermeli', check: (pwd) => {
@@ -311,10 +331,10 @@
                 { id: 'roman', text: 'Bir Roma rakamı içermeli (I,V,X,L,C,D,M)', check: (pwd) => /[IVXLCDM]/.test(pwd.toUpperCase()) }
             ],
             extreme: [
-                { id: 'length', text: 'Tam olarak 15 karakter olmalı', check: (pwd) => pwd.length === 15 },
-                { id: 'uppercase', text: 'En az 4 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 4 },
-                { id: 'lowercase', text: 'En az 4 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 4 },
-                { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 3 },
+                { id: 'length', text: 'Tam olarak 50 karakter olmalı', check: (pwd) => pwd.length === 50 },
+                { id: 'uppercase', text: 'En az 5 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 5 },
+                { id: 'lowercase', text: 'En az 5 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 5 },
+                { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 4 },
                 { id: 'city', text: 'İki farklı şehir adı içermeli', check: (pwd) => {
                     const foundCities = turkishCities.filter(city => pwd.toLowerCase().includes(city));
                     return foundCities.length >= 2;
