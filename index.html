@@ -237,42 +237,33 @@
 
     <script>
         let currentDifficulty = 'easy';
- const turkishCities = [
-  'adana', 'adıyaman', 'afyonkarahisar', 'ağrı', 'aksaray', 'amasya', 'ankara', 'antalya', 'ardahan',
-  'artvin', 'aydın', 'balıkesir', 'bartın', 'batman', 'bayburt', 'bilecik', 'bingöl', 'bitlis',
-  'bolu', 'burdur', 'bursa', 'çanakkale', 'çankırı', 'çorum', 'denizli', 'diyarbakır', 'düzce',
-  'edirne', 'elazığ', 'erzincan', 'erzurum', 'eskişehir', 'gaziantep', 'giresun', 'gümüşhane',
-  'hakkari', 'hatay', 'ığdır', 'isparta', 'istanbul', 'izmir', 'kahramanmaraş', 'karabük', 'karaman',
-  'kars', 'kastamonu', 'kayseri', 'kırıkkale', 'kırklareli', 'kırşehir', 'kilis', 'kocaeli',
-  'konya', 'kütahya', 'malatya', 'manisa', 'mardin', 'mersin', 'muğla', 'muş', 'nevşehir',
-  'niğde', 'ordu', 'osmaniye', 'rize', 'sakarya', 'samsun', 'siirt', 'sinop', 'sivas',
-  'şanlıurfa', 'şırnak', 'tekirdağ', 'tokat', 'trabzon', 'tunceli', 'uşak', 'van', 'yalova',
+const turkishCities = [
+  'adana', 'adiyaman', 'afyonkarahisar', 'agri', 'aksaray', 'amasya', 'ankara', 'antalya', 'ardahan',
+  'artvin', 'aydin', 'balikesir', 'bartin', 'batman', 'bayburt', 'bilecik', 'bingol', 'bitlis',
+  'bolu', 'burdur', 'bursa', 'canakkale', 'cankiri', 'corum', 'denizli', 'diyarbakir', 'duzce',
+  'edirne', 'elazig', 'erzincan', 'erzurum', 'eskisehir', 'gaziantep', 'giresun', 'gumushane',
+  'hakkari', 'hatay', 'igdir', 'isparta', 'istanbul', 'izmir', 'kahramanmaras', 'karabuk', 'karaman',
+  'kars', 'kastamonu', 'kayseri', 'kirikkale', 'kirklareli', 'kirsehir', 'kilis', 'kocaeli',
+  'konya', 'kutahya', 'malatya', 'manisa', 'mardin', 'mersin', 'mugla', 'mus', 'nevsehir',
+  'nigde', 'ordu', 'osmaniye', 'rize', 'sakarya', 'samsun', 'siirt', 'sinop', 'sivas',
+  'sanliurfa', 'sirnak', 'tekirdag', 'tokat', 'trabzon', 'tunceli', 'usak', 'van', 'yalova',
   'yozgat', 'zonguldak'
 ];
-
-];
   const turkishBrands = [
-  'turkcell', 'vodafone', 'türktelekom', 'bim', 'migros', 'carrefour', 'şok', 'a101', 'hakmar', 'kipa',
-  'arçelik', 'vestel', 'beko', 'altus', 'profilo', 'simfer', 'sunny', 'fakir', 'arnica', 'rowenta', 'tefal',
-  'bosch', 'siemens', 'philips', 'grundig', 'black+decker', 'delonghi', 'arzum', 'king',
-  'eti', 'ülker', 'saray', 'şölen', 'torku', 'pınar', 'nestle', 'danone', 'aytaç', 'banvit', 'cp', 'namet',
-  'clear', 'duru', 'hacı şakir', 'ipek', 'mintax', 'fairy', 'finish', 'persil', 'omo', 'ace',
-  'coca', 'cola', 'pepsi', 'fanta', 'sprite', 'redbull', 'ice tea', 'lipton', 'nescafe', 'jacobs', 'tchibo',
-  'nike', 'adidas', 'puma', 'reebok', 'new balance', 'skechers', 'converse', 'asics', 'under armour',
-  'lc waikiki', 'defacto', 'colins', 'mavi', 'koton', 'zara', 'hm', 'pull&bear', 'bershka', 'stradivarius',
-  'flo', 'instreet', 'derimod', 'greyder', 'hotic', 'kemal tanca', 'bambi', 'dockers', 'levis',
+  'turkcell', 'vodafone', 'turktelekom', 'bim', 'migros', 'carrefour', 'şok', 'a101', 'hakmar', 'kipa',
+  'arcelik', 'vestel', 'beko', 'altus', 'profilo', 'simfer', 'sunny', 'fakir', 'arnica', 'rowenta', 'tefal',
+  'eti', 'ulker', 'saray', 'şölen', 'torku', 'nestle', 'pinar', 'eyüp sabri tuncer', 'danone', 'banvit', 'aytaç',
+  'coca', 'cola', 'pepsi', 'fanta', 'sprite', 'redbull', 'ice tea', 'lipton', 'nescafe', 'jacobs',
+  'nike', 'adidas', 'puma', 'reebok', 'lc waikiki', 'defacto', 'colins', 'mavi', 'koton',
+  'flo', 'derimod', 'greyder', 'hotic', 'kemal tanca',
   'samsung', 'apple', 'huawei', 'xiaomi', 'oppo', 'realme', 'casper', 'exper', 'monster', 'vestel',
-  'asus', 'msi', 'lenovo', 'hp', 'dell', 'acer', 'sony', 'philips', 'gigabyte', 'toshiba', 'panasonic',
-  'alienware', 'thomson', 'hommade', 'everest', 'viewsonic', 'lg', 'logitech', 'creative', 'steelseries',
-  'toyota', 'honda', 'bmw', 'mercedes', 'audi', 'volkswagen', 'ford', 'opel', 'renault', 'peugeot',
-  'hyundai', 'kia', 'mazda', 'nissan', 'fiat', 'togg', 'skoda', 'citroen', 'jeep', 'subaru', 'suzuki',
-  'turkish airlines', 'pegasus', 'anadolu jet', 'thy', 'ptt', 'trt', 'aselsan', 'roketsan', 'tusaş',
-  'havelsan', 'bmc', 'baykar', 'kale', 'otokar', 'istanbul havalimanı', 'havataş', 'metro', 'kamil koç',
+  'asus', 'msi', 'lenovo', 'hp', 'dell', 'acer', 'sony', 'philips', 'grundig', 'gigabyte', 'toshiba', 'panasonic',
+  'toyota', 'honda', 'bmw', 'mercedes', 'audi', 'volkswagen', 'ford', 'opel', 'renault',
+  'peugeot', 'hyundai', 'kia', 'mazda', 'nissan', 'fiat', 'togg', 'skoda', 'citroen', 'jeep',
+  'turkish airlines', 'pegasus', 'anadolu jet', 'thy', 'ptt', 'trt', 'aselsan', 'roketsan',
+  'tusaş', 'havelsan', 'bmc', 'baykar', 'kale', 'otokar',
   'getir', 'trendyol', 'hepsiburada', 'n11', 'amazon', 'sahibinden', 'letgo', 'yemeksepeti', 'dolap',
-  'migros sanal market', 'carrefoursa', 'istanbulkart', 'hopi', 'bip', 'ziraat', 'vakıfbank',
-  'halkbank', 'garanti', 'işbank', 'akbank', 'enpara', 'papara', 'troy', 'iyzico', 'param', 'ininal',
-  'decathlon', 'boyner', 'network', 'mudo', 'madame coco', 'english home', 'ikea', 'koçtaş', 'teknosa',
-  'vatan', 'mediamarkt', 'gold bilgisayar', 'bimeks', 'electroworld', 'aeg', 'arnica', 'altus', 'topluyo'
+  'zara', 'hm', 'pull&bear', 'bershka', 'stradivarius', 'decathlon', 'boyner', 'network', 'mudo', 'lcw'
 ];
         const rules = {
             easy: [
