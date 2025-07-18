@@ -267,7 +267,7 @@ const turkishCities = [
 ];
         const rules = {
             easy: [
-                { id: 'length', text: 'Tam olarak 20 karakter olmalı', check: (pwd) => pwd.length === 20 },
+                { id: 'length', text: 'Tam olarak 23 karakter olmalı', check: (pwd) => pwd.length === 23 },
                 { id: 'uppercase', text: 'En az 2 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 2 },
                 { id: 'lowercase', text: 'En az 2 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 2 },
                 { id: 'number', text: 'En az 2 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 2 },
@@ -282,7 +282,7 @@ const turkishCities = [
                 }}
             ],
             hard: [
-                { id: 'length', text: 'Tam olarak 30 karakter olmalı', check: (pwd) => pwd.length === 30 },
+                { id: 'length', text: 'Tam olarak 40 karakter olmalı', check: (pwd) => pwd.length === 40 },
                 { id: 'uppercase', text: 'En az 3 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 3 },
                 { id: 'lowercase', text: 'En az 3 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 3 },
                 { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 3 },
@@ -323,7 +323,7 @@ const turkishCities = [
                 { id: 'roman', text: 'Bir Roma rakamı içermeli (I,V,X,L,C,D,M)', check: (pwd) => /[IVXLCDM]/.test(pwd.toUpperCase()) }
             ],
             extreme: [
-                { id: 'length', text: 'Tam olarak 50 karakter olmalı', check: (pwd) => pwd.length === 50 },
+                { id: 'length', text: 'Tam olarak 60 karakter olmalı', check: (pwd) => pwd.length === 60 },
                 { id: 'uppercase', text: 'En az 5 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 5 },
                 { id: 'lowercase', text: 'En az 5 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 5 },
                 { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 4 },
