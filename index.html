@@ -365,7 +365,7 @@
                 { id: 'roman', text: 'Bir Roma rakamı içermeli (I,V,X,L,C,D,M)', check: (pwd) => /[IVXLCDM]/.test(pwd.toUpperCase()) }
             ],
             impossible: [ // Yeni İmkansız seviye
-                { id: 'length', text: 'Tam olarak 60 karakter olmalı', check: (pwd) => pwd.length === 60 },
+                { id: 'length', text: 'Tam olarak 65 karakter olmalı', check: (pwd) => pwd.length === 60 },
                 { id: 'uppercase', text: 'En az 5 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 5 },
                 { id: 'lowercase', text: 'En az 5 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 5 },
                 { id: 'number', text: 'En az 4 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 4 },
