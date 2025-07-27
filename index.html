@@ -186,7 +186,7 @@
             color: white;
         }
 
-        .difficulty-btn.impossible { /* "extreme" yerine "impossible" yapıldı */
+        .difficulty-btn.impossible {
             background: #e74c3c;
             color: white;
         }
@@ -261,7 +261,7 @@
         </div>
 
         <div class="rules" id="rulesContainer">
-            </div>
+        </div>
 
         <div class="win-message" id="winMessage">
             🎉 Tebrikler! Şifreyi başarıyla oluşturdunuz! 🎉
@@ -355,7 +355,7 @@
                     for (let i = 0; i < 8; i++) {
                         const char = pwd[i];
                         if (i % 2 === 0) {
-                            if (!/[a-zA-Z]/.test(char)) return false;
+                            if (!/[a-zA-ZçÇğĞıİöÖşŞüÜ]/.test(char)) return false; // Türkçe karakterler eklendi
                         } else {
                             if (!/[0-9]/.test(char)) return false;
                         }
@@ -365,7 +365,7 @@
                 { id: 'roman', text: 'Bir Roma rakamı içermeli (I,V,X,L,C,D,M)', check: (pwd) => /[IVXLCDM]/.test(pwd.toUpperCase()) }
             ],
             impossible: [ // Yeni İmkansız seviye
-                { id: 'length', text: 'Tam olarak 65 karakter olmalı', check: (pwd) => pwd.length === 60 },
+                { id: 'length', text: 'Tam olarak 65 karakter olmalı', check: (pwd) => pwd.length === 65 }, // Uzunluk 65 olarak düzeltildi
                 { id: 'uppercase', text: 'En az 5 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 5 },
                 { id: 'lowercase', text: 'En az 5 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 5 },
                 { id: 'number', text: 'En az 4 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 4 },
@@ -399,11 +399,11 @@
                     for (let i = 0; i < 15; i++) {
                         const char = pwd[i];
                         if (i % 3 === 0) { // Harf
-                            if (!/[a-zA-Z]/.test(char)) return false;
+                            if (!/[a-zA-ZçÇğĞıİöÖşŞüÜ]/.test(char)) return false; // Türkçe karakterler eklendi
                         } else if (i % 3 === 1) { // Rakam
                             if (!/[0-9]/.test(char)) return false;
                         } else { // Özel Karakter
-                            if (!/[!@#$%^&*(),.?":{}|<>]/.test(char)) return false;
+                            if (!/[!@#$%^&*(),.?":{}|<>_+\-=\[\];':"\\|,.<>\/?~`]/.test(char)) return false; // Daha fazla özel karakter eklendi
                         }
                     }
                     return true;
@@ -411,9 +411,9 @@
                 { id: 'romanMultiple', text: 'İki farklı Roma rakamı ve toplam değeri 100\'den büyük olmalı', check: (pwd) => { // Roma rakamı ve değer kuralı
                     const romanMap = { 'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000 };
                     const romans = pwd.toUpperCase().match(/[IVXLCDM]/g);
-                    if (!romans) return false;
+                    if (!romans || romans.length < 2) return false; // En az iki Roma rakamı olmalı
                     const uniqueRomans = [...new Set(romans)];
-                    const totalRomanValue = romans.reduce((acc, roman) => acc + romanMap[roman], 0);
+                    const totalRomanValue = romans.reduce((acc, roman) => acc + (romanMap[roman] || 0), 0); // Geçersiz roma rakamı durumunda 0 ekle
                     return uniqueRomans.length >= 2 && totalRomanValue > 100;
                 }},
                 { id: 'monthName', text: 'Bir ay adı içermeli (Türkçe veya İngilizce, ilk harfi büyük)', check: (pwd) => { // Ay adı kuralı
@@ -434,7 +434,8 @@
                 { id: 'fibonacciConsecutive', text: 'Ardışık iki Fibonacci sayısı içermeli (örn: 58 veya 813)', check: (pwd) => { // Ardışık Fibonacci kuralı
                     const fibs = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
                     for (let i = 0; i < fibs.length - 1; i++) {
-                        if (pwd.includes(fibs[i].toString() + fibs[i+1].toString())) {
+                        // Sadece ardışık sayıları kontrol etmeli
+                        if (pwd.includes(fibs[i].toString() + fibs[i+1].toString()) || pwd.includes(fibs[i+1].toString() + fibs[i].toString())) {
                             return true;
                         }
                     }
@@ -443,8 +444,22 @@
                 { id: 'perfectAndAbundant', text: 'Bir mükemmel sayı (6, 28) VE bir artan sayı (örn: 12, 18) içermeli', check: (pwd) => { // Mükemmel ve artan sayı kuralı
                     const perfects = [6, 28];
                     const abundants = [12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78, 80, 84, 88, 90, 96, 100, 102, 104, 108, 112, 114, 120]; // Örnek artan sayılar
-                    const hasPerfect = perfects.some(perfect => pwd.includes(perfect.toString()));
-                    const hasAbundant = abundants.some(abundant => pwd.includes(abundant.toString()));
+                    let hasPerfect = false;
+                    let hasAbundant = false;
+
+                    // Şifredeki tüm sayıları bul ve kontrol et
+                    const numbersInPwd = pwd.match(/\d+/g);
+                    if (numbersInPwd) {
+                        numbersInPwd.forEach(numStr => {
+                            const num = parseInt(numStr);
+                            if (perfects.includes(num)) {
+                                hasPerfect = true;
+                            }
+                            if (abundants.includes(num)) { // Artan sayı kontrolünü burada çağır
+                                hasAbundant = true;
+                            }
+                        });
+                    }
                     return hasPerfect && hasAbundant;
                 }},
                 { id: 'noVowelEnd', text: 'Sesli harfle bitemez', check: (pwd) => { // Bitiş kuralı
@@ -452,6 +467,7 @@
                     return !/[aeiouıöüAEIOUIÖÜ]/.test(pwd[pwd.length - 1]);
                 }},
                 { id: 'primeNumberEnd', text: 'Son rakam asal sayı olmalı (2,3,5,7)', check: (pwd) => { // Son rakam asal kuralı
+                    if (pwd.length === 0) return false;
                     const lastChar = pwd[pwd.length - 1];
                     return /[2357]/.test(lastChar);
                 }},
@@ -478,21 +494,8 @@
             return true;
         }
 
-        // Artan sayı kontrolü (Mükemmel sayı kuralı için yardımcı fonksiyon)
-        function isAbundant(n) {
-            if (n <= 0) return false;
-            let sumOfDivisors = 1; // 1 her zaman bölendir
-            for (let i = 2; i * i <= n; i++) {
-                if (n % i === 0) {
-                    sumOfDivisors += i;
-                    if (i * i !== n) {
-                        sumOfDivisors += n / i;
-                    }
-                }
-            }
-            return sumOfDivisors > n;
-        }
-
+        // isAbundant fonksiyonu mükemmel ve artan sayı kuralı için kaldırıldı
+        // Çünkü kural sadece belirtilen sabit sayıların varlığını kontrol ediyor, genel bir artan sayı tanımı gerekmiyor.
 
         function setDifficulty(difficulty) {
             currentDifficulty = difficulty;
@@ -500,7 +503,7 @@
             document.querySelector(`.difficulty-btn.${difficulty}`).classList.add('active');
 
             renderRules();
-            checkPassword();
+            checkPassword(); // Zorluk değiştiğinde şifreyi tekrar kontrol et
         }
 
         function renderRules() {
@@ -544,7 +547,7 @@
             document.getElementById('progressBar').style.width = progress + '%';
 
             const winMessage = document.getElementById('winMessage');
-            if (validCount === currentRules.length) {
+            if (validCount === currentRules.length && password.length > 0) { // Şifre boş değilse kazanma mesajı göster
                 winMessage.style.display = 'block';
                 winMessage.innerHTML = `
                     🎉 Tebrikler! ${currentDifficulty === 'easy' ? 'Kolay' : currentDifficulty === 'hard' ? 'Zor' : 'İmkansız'}
@@ -556,8 +559,9 @@
             }
         }
 
-        // Sayfa yüklendiğinde kuralları oluştur
+        // Sayfa yüklendiğinde kuralları oluştur ve şifreyi kontrol et
         renderRules();
+        checkPassword(); // İlk yüklemede de kontrol et
 
         // Başlangıç animasyonu
         setTimeout(() => {
