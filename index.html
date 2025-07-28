@@ -3,226 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akıllı Şifre Oyunu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Dünyanın En Zor Şifre Oyunu v2</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Arial', sans-serif;
+            background: #f0f2f5; /* Daha yumuşak bir arka plan */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: #333; /* Genel metin rengi */
         }
 
         .game-container {
             background: #ffffff;
-            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Daha belirgin gölge */
+            max-width: 700px; /* Genişletilmiş konteyner */
             width: 100%;
-            margin-bottom: 25px;
-            box-sizing: border-box; /* Padding'in genişliği etkilememesini sağlar */
+            margin-bottom: 20px;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.5s ease-out; /* Giriş animasyonu */
         }
 
         .title {
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 2.2em;
-            font-weight: 600;
-        }
-
-        .difficulty-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .difficulty-btn {
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 1em;
-            transition: all 0.2s ease;
-            background-color: #f8f8f8;
-            color: #555;
-        }
-
-        .difficulty-btn:hover {
-            background-color: #e2e2e2;
-        }
-
-        .difficulty-btn.active {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
-            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+            color: #2c3e50; /* Daha koyu başlık */
+            margin-bottom: 30px;
+            font-size: 2.8em; /* Daha büyük başlık */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            letter-spacing: -1px; /* Hafif daraltılmış harf aralığı */
         }
 
         .password-input {
             width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1.1em;
+            padding: 18px;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            font-size: 20px; /* Daha büyük font */
             margin-bottom: 25px;
-            box-sizing: border-box; /* Padding'in genişliği etkilememesini sağlar */
-            transition: border-color 0.2s ease;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* İç gölge */
         }
 
         .password-input:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #3498db; /* Odak rengi değiştirildi */
+            box-shadow: 0 0 12px rgba(52, 152, 219, 0.4); /* Parlak odak gölgesi */
+        }
+
+        .password-input::placeholder {
+            color: #888; /* Daha net placeholder */
         }
 
         .rules {
-            margin-bottom: 25px;
-            /* Scrollbar kaldırıldı, tüm kurallar doğrudan görünecek */
+            margin-bottom: 20px;
         }
 
         .rule {
             display: flex;
             align-items: center;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 5px;
-            background: #fdfdfd;
+            margin: 10px 0; /* Boşluk artırıldı */
+            padding: 15px; /* Dolgu artırıldı */
+            border-radius: 12px;
+            background: #f9f9f9; /* Hafif arka plan */
             border: 1px solid #eee;
-            color: #444;
-            font-size: 0.95em;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            color: #555;
+            font-weight: bold;
+            font-size: 1.1em; /* Daha büyük kural metni */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .rule.valid {
-            background: #e6ffe6;
-            border-left: 5px solid #2ecc71;
+            background: #e6ffe6; /* Daha hafif yeşil */
+            border-left: 5px solid #2ecc71; /* Daha canlı yeşil çizgi */
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
         }
 
         .rule.invalid {
-            background: #ffe6e6;
-            border-left: 5px solid #e74c3c;
+            background: #ffe6e6; /* Daha hafif kırmızı */
+            border-left: 5px solid #e74c3c; /* Daha canlı kırmızı çizgi */
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
         }
 
         .rule-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            font-size: 1.2em;
+            width: 28px; /* İkon boyutu artırıldı */
+            height: 28px;
+            margin-right: 12px;
+            font-size: 24px; /* İkon font boyutu */
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #777;
         }
 
-        .rule.valid .rule-icon {
-            color: #2ecc71;
-        }
-
-        .rule.invalid .rule-icon {
-            color: #e74c3c;
+        .rule-text {
+            flex: 1;
         }
 
         .progress-bar {
             width: 100%;
-            height: 10px;
+            height: 12px; /* Kalınlaştırılmış progress bar */
             background: #e0e0e0;
-            border-radius: 5px;
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #f39c12, #e74c3c, #3498db, #2ecc71);
-            border-radius: 5px;
+            background: linear-gradient(90deg, #f39c12, #e74c3c, #3498db, #2ecc71); /* Daha çeşitli renk geçişi */
+            border-radius: 6px;
             width: 0%;
-            transition: width 0.4s ease-out;
+            transition: width 0.4s ease-in-out; /* Daha akıcı geçiş */
         }
 
         .win-message {
             text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            border-radius: 10px;
+            padding: 25px; /* Dolgu artırıldı */
+            background: linear-gradient(135deg, #2ecc71, #27ae60); /* Canlı yeşil tonları */
+            border-radius: 18px; /* Daha yuvarlak köşeler */
             color: white;
-            font-size: 1.5em;
-            font-weight: 600;
-            margin-top: 20px;
+            font-size: 1.8em; /* Daha büyük font */
+            margin-top: 25px;
             display: none;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Boşluk artırıldı */
+            margin-bottom: 30px;
+        }
+
+        .difficulty-btn {
+            padding: 12px 25px; /* Dolgu artırıldı */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .difficulty-btn.easy {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .difficulty-btn.hard {
+            background: #f39c12;
+            color: white;
+        }
+
+        .difficulty-btn.impossible { /* "extreme" yerine "impossible" yapıldı */
+            background: #e74c3c;
+            color: white;
+        }
+
+        .difficulty-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .difficulty-btn.active {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #fff; /* Aktif butona beyaz çerçeve */
         }
 
         .easter-egg {
             text-align: center;
             margin-top: 25px;
-            font-size: 0.9em;
-            color: #6a1b9a;
-            background: #f3e5f5;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px dashed #ce93d8;
-            line-height: 1.4;
+            font-size: 1em;
+            color: #666;
+            background: #e9ecef; /* Daha belirgin arka plan */
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed #ced4da; /* Kesikli çerçeve */
+            font-weight: bold;
         }
 
         .footer {
             text-align: center;
             margin-top: 25px;
-            font-size: 0.9em;
-            color: #777;
+            font-size: 1.2em;
+            color: #555;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
         .heart {
-            color: #e74c3c;
-            font-size: 1.1em;
+            color: #e74c3c; /* Canlı kırmızı kalp */
+            font-size: 1.4em;
             animation: heartbeat 1.5s ease-in-out infinite;
         }
 
         @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .game-container {
-                padding: 20px;
+            0% {
+                transform: scale(1);
             }
-            .title {
-                font-size: 1.8em;
+            50% {
+                transform: scale(1.2);
             }
-            .difficulty-selector {
-                flex-direction: column;
-            }
-            .difficulty-btn {
-                width: 100%;
-            }
-            .password-input {
-                font-size: 1em;
-            }
-            .rule {
-                font-size: 0.85em;
-            }
-            .win-message {
-                font-size: 1.2em;
+            100% {
+                transform: scale(1);
             }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1 class="title">🔐 Akıllı Şifre Oyunu</h1>
+        <h1 class="title">🔐 Dünyanın En Zor Şifre Oyunu v2</h1>
 
         <div class="difficulty-selector">
             <button class="difficulty-btn easy active" onclick="setDifficulty('easy')">Kolay</button>
@@ -244,7 +268,7 @@
         </div>
 
         <div class="easter-egg">
-            💡 **İpucu:** Türk şehirleri, yerli ve yabancı markalar, matematiksel terimler, hatta bazı gizli referanslar bile işin içinde olabilir! Bunu Tefe Erdoğan'a yaptım Like At!
+            💡 İpucu: Türk Şehirleri, Yerli ve Yabancı markalar, hatta matematiksel terimler bile işin içinde!
         </div>
     </div>
 
@@ -254,7 +278,6 @@
 
     <script>
         let currentDifficulty = 'easy';
-
         const turkishCities = [
             'adana', 'adiyaman', 'afyonkarahisar', 'agri', 'aksaray', 'amasya', 'ankara', 'antalya', 'ardahan',
             'artvin', 'aydin', 'balikesir', 'bartin', 'batman', 'bayburt', 'bilecik', 'bingol', 'bitlis',
@@ -281,254 +304,266 @@
             'turkish airlines', 'pegasus', 'anadolu jet', 'thy', 'ptt', 'trt', 'aselsan', 'roketsan',
             'tusaş', 'havelsan', 'bmc', 'baykar', 'kale', 'otokar',
             'getir', 'trendyol', 'hepsiburada', 'n11', 'amazon', 'sahibinden', 'letgo', 'yemeksepeti', 'dolap',
-            'zara', 'hm', 'pull&bear', 'bershka', 'stradivarius', 'decathlon', 'boyner', 'network', 'mudo', 'lcw',
-            'starbucks', 'mcdonalds', 'burger king', 'kfc', 'dominos', 'pizza hut', 'ikea', 'koçtaş', 'bauhaus',
-            'vatan bilgisayar', 'media markt', 'teknosa', 'turknet', 'millenicom', 'superonline',
-            'doğuş', 'koç', 'sabancı', 'eczacıbaşı', 'anadolu efes', 'şişecam', 'tüpraş', 'petkim', 'ereğli demir çelik'
-        ].map(brand => brand.toLowerCase());
-
-        const mathTerms = [
-            'pi', 'euler', 'logaritma', 'sinüs', 'kosinüs', 'tanjant', 'integral', 'türev', 'limit', 'karekok',
-            'faktöriyel', 'hipotenüs', 'çevre', 'alan', 'hacim', 'matris', 'vektör', 'algoritma', 'geometri',
-            'cebir', 'permutasyon', 'kombinasyon', 'fraktal', 'paradoks', 'teorem', 'aksiyom', 'koni', 'küre',
-            'silindir', 'piramit', 'dikdörtgen', 'üçgen', 'daire', 'elips', 'parabol', 'hiperbol', 'denklem',
-            'fonksiyon', 'aritmetik', 'geometrik', 'dizi', 'seri', 'çarpım', 'bölüm', 'toplam', 'fark', 'oran',
-            'orantı', 'hipotez', 'tahmin', 'istatistik', 'olasılık', 'varyans', 'standart sapma', 'medyan', 'mod'
-        ].map(term => term.toLowerCase());
-
-        const famousPeople = [
-            'atatürk', 'einstein', 'newton', 'tesla', 'da vinci', 'shakespeare', 'mozart', 'beethoven',
-            'madonna', 'rihanna', 'beyonce', 'messi', 'ronaldo', 'lebron', 'jordan', 'pablo', 'picasso',
-            'frida kahlo', 'mimar sinan', 'fatih sultan mehmet', 'kanuni', 'cem yılmaz', 'şener şen',
-            'tarkan', 'sezen aksu', 'barış manço', 'cem karaca', 'edison', 'bill gates', 'steve jobs',
-            'mark zuckerberg', 'elon musk', 'marie curie', 'galileo', 'stephen hawking', 'charles darwin',
-            'albert camus', 'dostoyevski', 'victor hugo', 'can yücel', 'nazım hikmet', 'necip fazıl',
-            'yunus emre', 'mevlana', 'hz muhammed', 'isa', 'musa', 'davut'
-        ].map(person => person.toLowerCase());
-
-        const constellations = [
-            'büyük ayı', 'küçük ayı', 'orion', 'boğa', 'ikizler', 'yengeç', 'aslan', 'başak', 'terazi', 'akrep',
-            'yay', 'oğlak', 'kova', 'balık', 'koç', 'ejderha', 'kuzey tacı', 'güney tacı', 'kahraman', 'andromeda',
-            'kuzeybalığı', 'pusula', 'ok', 'yay', 'çoban', 'kartal', 'kuğu', 'lir', 'yılan', 'terazi'
-        ].map(constellation => constellation.toLowerCase());
-
-        const colors = [
-            'kırmızı', 'mavi', 'yeşil', 'sarı', 'mor', 'pembe', 'turuncu', 'siyah', 'beyaz', 'gri', 'kahverengi',
-            'bej', 'lacivert', 'turkuaz', 'altın', 'gümüş', 'bronz', 'platin', 'morötesi', 'kızılötesi', 'mint yeşili',
-            'kiremit', 'bordo', 'cam göbeği', 'mercan', 'fildişi', 'lavanta', 'zeytin yeşili', 'çivit mavisi'
-        ].map(color => color.toLowerCase());
-
-        const animals = [
-            'kedi', 'köpek', 'at', 'ayı', 'aslan', 'kaplan', 'fil', 'zürafa', 'maymun', 'yılan', 'timsah',
-            'kuş', 'balık', 'tavşan', 'fare', 'tilki', 'kurt', 'deve', 'panda', 'penguen', 'kartal', 'şahin',
-            'papağan', 'ördek', 'kaz', 'koyun', 'keçi', 'inek', 'domuz', 'tavuk', 'horoz', 'eşek', 'sincap',
-            'kirpi', 'gelincik', 'kunduz', 'rakun', 'kokarca', 'mirket', 'puma', 'jaguar', 'leopar', 'çita',
-            'su aygırı', 'gergedan', 'zebra', 'kanguru', 'koala', 'lama', 'alpaka', 'devekuşu', 'kertenkele',
-            'bukalemun', 'semender', 'kurbağa', 'arı', 'sinek', 'kelebek', 'uğur böceği', 'karınca', 'örümcek',
-            'akrep', 'yengeç', 'ahtapot', 'denizanası', 'yunus', 'balina', 'köpekbalığı', 'fok', 'mors'
-        ].map(animal => animal.toLowerCase());
-
-        // Roma Rakamı Dönüştürücü (Zorluk için kullanışlı)
-        function romanToDecimal(roman) {
-            const map = { 'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000 };
-            let num = 0;
-            for (let i = 0; i < roman.length; i++) {
-                const current = map[roman[i]];
-                const next = map[roman[i + 1]];
-                if (next && current < next) {
-                    num -= current;
-                } else {
-                    num += current;
-                }
-            }
-            return num;
-        }
-
-        function isPrime(num) {
-            if (num <= 1) return false;
-            for (let i = 2; i <= Math.sqrt(num); i++) {
-                if (num % i === 0) return false;
-            }
-            return true;
-        }
-
-        function isPerfect(num) {
-            if (num <= 1) return false;
-            let sum = 1;
-            for (let i = 2; i * i <= num; i++) {
-                if (num % i === 0) {
-                    sum += i;
-                    if (i * i !== num) {
-                        sum += num / i;
-                    }
-                }
-            }
-            return sum === num;
-        }
-
-        function isAbundant(num) {
-            if (num <= 1) return false;
-            let sum = 1;
-            for (let i = 2; i * i <= num; i++) {
-                if (num % i === 0) {
-                    sum += i;
-                    if (i * i !== num) {
-                        sum += num / i;
-                    }
-                }
-            }
-            return sum > num;
-        }
-
-        function isFibonacci(num) {
-            if (num < 0) return false;
-            if (num === 0 || num === 1) return true;
-            let a = 0, b = 1;
-            while (b < num) {
-                let temp = b;
-                b = a + b;
-                a = temp;
-            }
-            return b === num;
-        }
+            'zara', 'hm', 'pull&bear', 'bershka', 'stradivarius', 'decathlon', 'boyner', 'network', 'mudo', 'lcw'
+        ].map(brand => brand.toLowerCase()); // Markaları küçük harfe çevir
 
         const rules = {
             easy: [
-                { id: 'length', text: 'En az 8 karakter olmalı', check: (pwd) => pwd.length >= 8 },
-                { id: 'uppercase', text: 'En az 1 büyük harf içermeli', check: (pwd) => /[A-ZÇĞİÖŞÜ]/.test(pwd) },
-                { id: 'lowercase', text: 'En az 1 küçük harf içermeli', check: (pwd) => /[a-zçğıöşü]/.test(pwd) },
-                { id: 'number', text: 'En az 1 rakam içermeli', check: (pwd) => /[0-9]/.test(pwd) },
-                { id: 'special', text: 'En az 1 özel karakter içermeli (!@#$...)', check: (pwd) => /[!@#$%^&*(),.?":{}|<>[\]_+\-=~`]/.test(pwd) }
+                { id: 'length', text: 'Tam olarak 23 karakter olmalı', check: (pwd) => pwd.length === 23 },
+                { id: 'uppercase', text: 'En az 2 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 2 },
+                { id: 'lowercase', text: 'En az 2 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 2 },
+                { id: 'number', text: 'En az 2 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 2 },
+                { id: 'city', text: 'Bir şehir adı içermeli', check: (pwd) => turkishCities.some(city => pwd.toLowerCase().includes(city)) },
+                { id: 'brand', text: 'Bir marka adı içermeli', check: (pwd) => turkishBrands.some(brand => pwd.toLowerCase().includes(brand)) },
+                { id: 'special', text: 'En az 1 özel karakter içermeli', check: (pwd) => /[!@#$%^&*(),.?":{}|<>]/.test(pwd) },
+                { id: 'prime', text: 'Rakamların toplamı asal sayı olmalı', check: (pwd) => {
+                    const numbers = pwd.match(/\d/g);
+                    if (!numbers) return false;
+                    const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
+                    return isPrime(sum);
+                }}
             ],
             hard: [
-                { id: 'length', text: 'Tam olarak 12 karakter olmalı', check: (pwd) => pwd.length === 12 },
-                { id: 'uppercase', text: 'En az 2 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-ZÇĞİÖŞÜ]/g) || []).length >= 2 },
-                { id: 'lowercase', text: 'En az 2 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-zçğıöşü]/g) || []).length >= 2 },
-                { id: 'number', text: 'En az 2 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 2 },
-                { id: 'special', text: 'En az 2 farklı özel karakter içermeli', check: (pwd) => {
-                    const specials = pwd.match(/[!@#$%^&*(),.?":{}|<>[\]_+\-=~`]/g);
-                    return specials && new Set(specials).size >= 2;
+                { id: 'length', text: 'Tam olarak 40 karakter olmalı', check: (pwd) => pwd.length === 40 },
+                { id: 'uppercase', text: 'En az 3 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 3 },
+                { id: 'lowercase', text: 'En az 3 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 3 },
+                { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 3 },
+                { id: 'city', text: 'Bir şehir adı içermeli', check: (pwd) => turkishCities.some(city => pwd.toLowerCase().includes(city)) },
+                { id: 'brand', text: 'İki farklı marka adı içermeli', check: (pwd) => {
+                    const foundBrands = new Set(turkishBrands.filter(brand => pwd.toLowerCase().includes(brand)));
+                    return foundBrands.size >= 2;
                 }},
-                { id: 'city', text: 'Bir Türk şehir adı içermeli (örn: Ankara)', check: (pwd) => turkishCities.some(city => pwd.toLowerCase().includes(city)) },
-                { id: 'noRepeat', text: 'Aynı karakter art arda 2 kereden fazla gelemez (örn: aaa)', check: (pwd) => !/(.)\1{2}/.test(pwd) },
-                { id: 'primeSum', text: 'Rakamların toplamı asal sayı olmalı', check: (pwd) => {
+                { id: 'special', text: 'En az 2 farklı özel karakter içermeli', check: (pwd) => {
+                    const specials = pwd.match(/[!@#$%^&*(),.?":{}|<>]/g);
+                    if (!specials) return false;
+                    const uniqueSpecials = [...new Set(specials)];
+                    return uniqueSpecials.length >= 2;
+                }},
+                { id: 'noRepeat', text: 'Aynı karakter art arda gelemez', check: (pwd) => !/(.)\1/.test(pwd) },
+                { id: 'prime', text: 'Rakamların toplamı asal sayı olmalı', check: (pwd) => {
                     const numbers = pwd.match(/\d/g);
                     if (!numbers) return false;
                     const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
                     return isPrime(sum);
                 }},
-                { id: 'mathTerm', text: 'Bir matematik terimi içermeli (örn: pi, sinüs)', check: (pwd) => mathTerms.some(term => pwd.toLowerCase().includes(term)) }
+                { id: 'vowelCount', text: 'Tam olarak 5 sesli harf içermeli', check: (pwd) => {
+                    const vowels = pwd.toLowerCase().match(/[aeiouıöü]/g);
+                    return vowels && vowels.length === 5;
+                }},
+                { id: 'alternating', text: 'Harf-rakam sırayla dönüşmeli (ilk 8 karakter)', check: (pwd) => {
+                    if (pwd.length < 8) return false;
+                    for (let i = 0; i < 8; i++) {
+                        const char = pwd[i];
+                        if (i % 2 === 0) {
+                            if (!/[a-zA-Z]/.test(char)) return false;
+                        } else {
+                            if (!/[0-9]/.test(char)) return false;
+                        }
+                    }
+                    return true;
+                }},
+                { id: 'roman', text: 'Bir Roma rakamı içermeli (I,V,X,L,C,D,M)', check: (pwd) => /[IVXLCDM]/.test(pwd.toUpperCase()) }
             ],
-            impossible: [
-                { id: 'length', text: 'Tam olarak 16 karakter olmalı', check: (pwd) => pwd.length === 16 },
-                { id: 'uppercase', text: 'En az 3 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-ZÇĞİÖŞÜ]/g) || []).length >= 3 },
-                { id: 'lowercase', text: 'En az 3 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-zçğıöşü]/g) || []).length >= 3 },
-                { id: 'number', text: 'En az 3 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 3 },
-                { id: 'special', text: 'En az 3 farklı özel karakter içermeli', check: (pwd) => {
-                    const specials = pwd.match(/[!@#$%^&*(),.?":{}|<>[\]_+\-=~`]/g);
-                    return specials && new Set(specials).size >= 3;
+            impossible: [ // Yeni İmkansız seviye
+                { id: 'length', text: 'Tam olarak 60 karakter olmalı', check: (pwd) => pwd.length === 60 },
+                { id: 'uppercase', text: 'En az 5 büyük harf içermeli', check: (pwd) => (pwd.match(/[A-Z]/g) || []).length >= 5 },
+                { id: 'lowercase', text: 'En az 5 küçük harf içermeli', check: (pwd) => (pwd.match(/[a-z]/g) || []).length >= 5 },
+                { id: 'number', text: 'En az 4 rakam içermeli', check: (pwd) => (pwd.match(/[0-9]/g) || []).length >= 4 },
+                { id: 'cityMultiple', text: 'İki farklı şehir adı içermeli', check: (pwd) => {
+                    const foundCities = new Set(turkishCities.filter(city => pwd.toLowerCase().includes(city)));
+                    return foundCities.size >= 2;
                 }},
-                { id: 'brandMultiple', text: 'İki farklı marka adı içermeli (örn: Arçelik, Vestel)', check: (pwd) => {
+                { id: 'brandMultiple', text: 'Üç farklı marka adı içermeli', check: (pwd) => { // Marka sayısı artırıldı
                     const foundBrands = new Set(turkishBrands.filter(brand => pwd.toLowerCase().includes(brand)));
-                    return foundBrands.size >= 2;
+                    return foundBrands.size >= 3;
                 }},
-                { id: 'noRepeatLong', text: 'Hiçbir karakter art arda 2 kereden fazla gelemez', check: (pwd) => !/(.)\1{2}/.test(pwd) },
-                { id: 'fibonacciConsecutive', text: 'Ardışık iki Fibonacci sayısı içermeli (örn: 58 veya 813)', check: (pwd) => {
+                { id: 'specialMultiple', text: 'En az 3 farklı özel karakter içermeli', check: (pwd) => {
+                    const specials = pwd.match(/[!@#$%^&*(),.?":{}|<>]/g);
+                    if (!specials) return false;
+                    const uniqueSpecials = [...new Set(specials)];
+                    return uniqueSpecials.length >= 3;
+                }},
+                { id: 'noRepeatLong', text: 'Hiçbir karakter art arda 2 kereden fazla gelemez (örn: aaa)', check: (pwd) => !/(.)\1{2}/.test(pwd) }, // Daha zorlu tekrar kuralı
+                { id: 'primeSum', text: 'Rakamların toplamı 10 ile 30 arasında bir asal sayı olmalı', check: (pwd) => { // Asal sayıya ek aralık kuralı
+                    const numbers = pwd.match(/\d/g);
+                    if (!numbers) return false;
+                    const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
+                    return isPrime(sum) && sum >= 10 && sum <= 30;
+                }},
+                { id: 'vowelExact', text: 'Tam olarak 6 sesli harf içermeli', check: (pwd) => { // Sesli harf sayısı değiştirildi
+                    const vowels = pwd.toLowerCase().match(/[aeiouıöü]/g);
+                    return vowels && vowels.length === 6;
+                }},
+                { id: 'alternatingLong', text: 'Harf-rakam-özel karakter sırayla dönüşmeli (ilk 15 karakter)', check: (pwd) => { // Yeni dönüşüm kuralı
+                    if (pwd.length < 15) return false;
+                    for (let i = 0; i < 15; i++) {
+                        const char = pwd[i];
+                        if (i % 3 === 0) { // Harf
+                            if (!/[a-zA-Z]/.test(char)) return false;
+                        } else if (i % 3 === 1) { // Rakam
+                            if (!/[0-9]/.test(char)) return false;
+                        } else { // Özel Karakter
+                            if (!/[!@#$%^&*(),.?":{}|<>]/.test(char)) return false;
+                        }
+                    }
+                    return true;
+                }},
+                { id: 'romanMultiple', text: 'İki farklı Roma rakamı ve toplam değeri 100\'den büyük olmalı', check: (pwd) => { // Roma rakamı ve değer kuralı
+                    const romanMap = { 'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000 };
+                    const romans = pwd.toUpperCase().match(/[IVXLCDM]/g);
+                    if (!romans) return false;
+                    const uniqueRomans = [...new Set(romans)];
+                    const totalRomanValue = romans.reduce((acc, roman) => acc + romanMap[roman], 0);
+                    return uniqueRomans.length >= 2 && totalRomanValue > 100;
+                }},
+                { id: 'monthName', text: 'Bir ay adı içermeli (Türkçe veya İngilizce, ilk harfi büyük)', check: (pwd) => { // Ay adı kuralı
+                    const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                    return months.some(month => pwd.includes(month));
+                }},
+                { id: 'palindromeSub', text: 'En az 5 karakterlik palindrom içermeli', check: (pwd) => { // Palindrom kuralı zorlaştırıldı
+                    for (let i = 0; i < pwd.length - 4; i++) {
+                        for (let j = i + 5; j <= pwd.length; j++) {
+                            const substr = pwd.substring(i, j);
+                            if (substr === substr.split('').reverse().join('')) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }},
+                { id: 'fibonacciConsecutive', text: 'Ardışık iki Fibonacci sayısı içermeli (örn: 58 veya 813)', check: (pwd) => { // Ardışık Fibonacci kuralı
                     const fibs = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
                     for (let i = 0; i < fibs.length - 1; i++) {
-                        const fib1 = fibs[i].toString();
-                        const fib2 = fibs[i+1].toString();
-                        if (pwd.includes(fib1 + fib2) || pwd.includes(fib2 + fib1)) {
+                        if (pwd.includes(fibs[i].toString() + fibs[i+1].toString())) {
                             return true;
                         }
                     }
                     return false;
                 }},
-                { id: 'perfectAndAbundant', text: 'Bir mükemmel sayı (6, 28) VE bir artan sayı (örn: 12, 18) içermeli', check: (pwd) => {
-                    let hasPerfect = false;
-                    let hasAbundant = false;
-                    const numbersInPwd = pwd.match(/\d+/g);
-                    if (numbersInPwd) {
-                        numbersInPwd.forEach(numStr => {
-                            const num = parseInt(numStr);
-                            if (!isNaN(num)) {
-                                if (isPerfect(num)) hasPerfect = true;
-                                if (isAbundant(num)) hasAbundant = true;
-                            }
-                        });
-                    }
+                { id: 'perfectAndAbundant', text: 'Bir mükemmel sayı (6, 28) VE bir artan sayı (örn: 12, 18) içermeli', check: (pwd) => { // Mükemmel ve artan sayı kuralı
+                    const perfects = [6, 28];
+                    const abundants = [12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78, 80, 84, 88, 90, 96, 100, 102, 104, 108, 112, 114, 120]; // Örnek artan sayılar
+                    const hasPerfect = perfects.some(perfect => pwd.includes(perfect.toString()));
+                    const hasAbundant = abundants.some(abundant => pwd.includes(abundant.toString()));
                     return hasPerfect && hasAbundant;
                 }},
-                { id: 'famousPerson', text: 'Bir ünlü kişinin adını içermeli (örn: Atatürk, Einstein)', check: (pwd) => famousPeople.some(person => pwd.toLowerCase().includes(person)) },
-                { id: 'constellation', text: 'Bir takımyıldız adı içermeli (örn: Orion, Büyük Ayı)', check: (pwd) => constellations.some(c => pwd.toLowerCase().includes(c)) },
-                { id: 'color', text: 'Bir renk adı içermeli (örn: kırmızı, mavi)', check: (pwd) => colors.some(color => pwd.toLowerCase().includes(color)) },
-                { id: 'animal', text: 'Bir hayvan adı içermeli (örn: kedi, aslan)', check: (pwd) => animals.some(animal => pwd.toLowerCase().includes(animal)) },
-                { id: 'quarterYear', text: 'Bir çeyrek yıl adı (Q1-Q4) VE 4 haneli bir yıl içermeli (örn: Q32024)', check: (pwd) => /(Q[1-4]|q[1-4])\d{4}/.test(pwd) }
+                { id: 'noVowelEnd', text: 'Sesli harfle bitemez', check: (pwd) => { // Bitiş kuralı
+                    if (pwd.length === 0) return false;
+                    return !/[aeiouıöüAEIOUIÖÜ]/.test(pwd[pwd.length - 1]);
+                }},
+                { id: 'primeNumberEnd', text: 'Son rakam asal sayı olmalı (2,3,5,7)', check: (pwd) => { // Son rakam asal kuralı
+                    const lastChar = pwd[pwd.length - 1];
+                    return /[2357]/.test(lastChar);
+                }},
+                { id: 'quarterYear', text: 'Bir çeyrek yıl adı içermeli (Q1, Q2, Q3, Q4)', check: (pwd) => { // Çeyrek yıl kuralı
+                    return /(Q1|Q2|Q3|Q4)/i.test(pwd);
+                }},
+                { id: 'emoji', text: 'En az 1 emoji içermeli', check: (pwd) => { // Emoji kuralı
+                    const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
+                    return emojiRegex.test(pwd);
+                }},
+                { id: 'specificPhrase', text: '"Yekta" veya "Topluyo" kelimesini içermemeli', check: (pwd) => { // Gizli kural
+                    return !(pwd.toLowerCase().includes('yekta') || pwd.toLowerCase().includes('topluyo'));
+                }}
             ]
         };
 
-        function displayRules() {
-            const rulesContainer = document.getElementById('rulesContainer');
-            rulesContainer.innerHTML = '';
+        function isPrime(n) {
+            if (n <= 1) return false;
+            if (n <= 3) return true;
+            if (n % 2 === 0 || n % 3 === 0) return false;
+            for (let i = 5; i * i <= n; i += 6) {
+                if (n % i === 0 || n % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        // Artan sayı kontrolü (Mükemmel sayı kuralı için yardımcı fonksiyon)
+        function isAbundant(n) {
+            if (n <= 0) return false;
+            let sumOfDivisors = 1; // 1 her zaman bölendir
+            for (let i = 2; i * i <= n; i++) {
+                if (n % i === 0) {
+                    sumOfDivisors += i;
+                    if (i * i !== n) {
+                        sumOfDivisors += n / i;
+                    }
+                }
+            }
+            return sumOfDivisors > n;
+        }
+
+
+        function setDifficulty(difficulty) {
+            currentDifficulty = difficulty;
+            document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.difficulty-btn.${difficulty}`).classList.add('active');
+
+            renderRules();
+            checkPassword();
+        }
+
+        function renderRules() {
+            const container = document.getElementById('rulesContainer');
+            container.innerHTML = '';
+
             rules[currentDifficulty].forEach(rule => {
                 const ruleElement = document.createElement('div');
                 ruleElement.className = 'rule';
                 ruleElement.id = `rule-${rule.id}`;
                 ruleElement.innerHTML = `
-                    <span class="rule-icon">●</span>
-                    <span class="rule-text">${rule.text}</span>
+                    <div class="rule-icon">❌</div>
+                    <div class="rule-text">${rule.text}</div>
                 `;
-                rulesContainer.appendChild(ruleElement);
+                container.appendChild(ruleElement);
             });
-            // Sayfa yüklendiğinde kuralları göstermek için checkPassword'u çağır
-            checkPassword();
         }
 
         function checkPassword() {
             const password = document.getElementById('password').value;
-            let completedRules = 0;
-            const totalRules = rules[currentDifficulty].length;
+            const currentRules = rules[currentDifficulty];
+            let validCount = 0;
 
-            rules[currentDifficulty].forEach(rule => {
+            currentRules.forEach(rule => {
                 const ruleElement = document.getElementById(`rule-${rule.id}`);
-                if (rule.check(password)) {
-                    ruleElement.classList.remove('invalid');
+                const isValid = rule.check(password);
+
+                if (isValid) {
                     ruleElement.classList.add('valid');
-                    ruleElement.querySelector('.rule-icon').textContent = '✓';
-                    completedRules++;
+                    ruleElement.classList.remove('invalid');
+                    ruleElement.querySelector('.rule-icon').textContent = '✅';
+                    validCount++;
                 } else {
-                    ruleElement.classList.remove('valid');
                     ruleElement.classList.add('invalid');
-                    ruleElement.querySelector('.rule-icon').textContent = '●';
+                    ruleElement.classList.remove('valid');
+                    ruleElement.querySelector('.rule-icon').textContent = '❌';
                 }
             });
 
-            const progressBar = document.getElementById('progressBar');
-            const progressPercentage = (completedRules / totalRules) * 100;
-            progressBar.style.width = `${progressPercentage}%`;
+            const progress = (validCount / currentRules.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
 
             const winMessage = document.getElementById('winMessage');
-            if (completedRules === totalRules) {
+            if (validCount === currentRules.length) {
                 winMessage.style.display = 'block';
+                winMessage.innerHTML = `
+                    🎉 Tebrikler! ${currentDifficulty === 'easy' ? 'Kolay' : currentDifficulty === 'hard' ? 'Zor' : 'İmkansız'}
+                    seviyesini tamamladınız! 🎉<br>
+                    Şifreniz: <strong>${password}</strong>
+                `;
             } else {
                 winMessage.style.display = 'none';
             }
         }
 
-        function setDifficulty(difficulty) {
-            currentDifficulty = difficulty;
-            const buttons = document.querySelectorAll('.difficulty-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.difficulty-btn.${difficulty}`).classList.add('active');
-            displayRules(); // Yeni zorluğa göre kuralları tekrar çiz
-            document.getElementById('password').value = ''; // Şifreyi temizle
-            checkPassword(); // Kuralları kontrol et
-        }
+        // Sayfa yüklendiğinde kuralları oluştur
+        renderRules();
 
-        // Sayfa yüklendiğinde varsayılan zorluğu ayarla
-        document.addEventListener('DOMContentLoaded', () => {
-            setDifficulty('easy');
-        });
+        // Başlangıç animasyonu
+        setTimeout(() => {
+            document.querySelector('.game-container').style.transform = 'scale(1)';
+            document.querySelector('.game-container').style.opacity = '1';
+        }, 100);
     </script>
 </body>
 </html>
